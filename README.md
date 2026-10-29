@@ -119,6 +119,7 @@ Reorder or hide panel sections, choose a compact layout, and export settings to 
 - **Extra click filter.** Ignore accidental rapid clicks from worn mouse buttons without delaying normal clicks.
 - **Key debounce.** Filter repeated letters caused by a worn keyboard.
 - **Super key.** Use Caps Lock or a right-side modifier as a shortcut combination, with a separate tap action and app exclusions.
+- **Input source lock.** Keep your chosen keyboard layout or input method in every app or in selected apps, with a guard that switches back when something changes it.
 - **Keyboard shortcuts.** Manage feature shortcuts in one place, including optional takeover of supported macOS shortcuts while a feature is active.
 
 ### Clipboard, files and links

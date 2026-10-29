@@ -94,6 +94,15 @@ enum DefaultsKey {
     static let mouseButtonExceptions = "mouseButtonExceptions"
     static let middleClickExceptions = "middleClickExceptions"
     static let superKeyExceptions = "superKeyExceptions"
+    // Input source lock: one global source, one source per listed app, and the
+    // interval the guard checks them at.
+    static let inputSourceLockEnabled = "inputSourceLockEnabled"
+    static let inputSourceLockGlobalSourceID = "inputSourceLockGlobalSourceID"
+    static let inputSourceLockRules = "inputSourceLockRules" // [bundle id: input source id]
+    static let inputSourceLockGuardIntervalSeconds = "inputSourceLockGuardIntervalSeconds"
+    // Machine-portable choice: show a Dynamic Island notice when the guard
+    // switches the source back. Off keeps maintenance corrections quiet.
+    static let inputSourceLockShowSwitchNotice = "inputSourceLockShowSwitchNotice"
     static let switcherEnabled = "switcherEnabled"
     static let switcherTakeOverSystemShortcuts = "switcherTakeOverSystemShortcuts"
     // Machine state, never exported: the system shortcuts this process owns,
@@ -1188,6 +1197,8 @@ enum Defaults {
     static let keyboardDebounceWindowStep = 1
     static let defaultMouseClickDebounceWindowMs = 25
     static let allowedMouseClickDebounceWindowRange = 5...100
+    static let defaultInputSourceLockGuardIntervalSeconds = 2
+    static let allowedInputSourceLockGuardIntervalRange = 1...60
     static let allowedMenuBarPresets = ["dense"]
     static let allowedMenuBarMetricSpacings = ["standard", "compact"]
     static let allowedMenuBarMetricAppearances = ["values", "bars"]
@@ -1276,6 +1287,11 @@ enum Defaults {
         DefaultsKey.mouseButtonExceptions: [String](),
         DefaultsKey.middleClickExceptions: [String](),
         DefaultsKey.superKeyExceptions: [String](),
+        DefaultsKey.inputSourceLockEnabled: false,
+        DefaultsKey.inputSourceLockGlobalSourceID: "",
+        DefaultsKey.inputSourceLockRules: [String: String](),
+        DefaultsKey.inputSourceLockGuardIntervalSeconds: defaultInputSourceLockGuardIntervalSeconds,
+        DefaultsKey.inputSourceLockShowSwitchNotice: false,
         DefaultsKey.switcherEnabled: true,
         DefaultsKey.switcherTakeOverSystemShortcuts: false,
         DefaultsKey.switcherShortcut: "command:48",
@@ -2557,6 +2573,12 @@ enum Defaults {
         allowedMouseClickDebounceWindowRange.contains(milliseconds)
             ? milliseconds
             : defaultMouseClickDebounceWindowMs
+    }
+
+    static func sanitizedInputSourceLockGuardInterval(_ seconds: Int) -> Int {
+        allowedInputSourceLockGuardIntervalRange.contains(seconds)
+            ? seconds
+            : defaultInputSourceLockGuardIntervalSeconds
     }
 
     /// Clamps rather than falling back to the default: a typed 4 becoming 5 is

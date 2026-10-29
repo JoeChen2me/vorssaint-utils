@@ -522,6 +522,8 @@ if (( TEST )); then
         Sources/Vorssaint/Services/SuperKey/SuperKeyMappingGuard.swift
         Sources/Vorssaint/Core/SuperKeyStrings.swift
         Sources/Vorssaint/Core/InputSourceSelection.swift
+        Sources/Vorssaint/Core/InputSourceLockSupport.swift
+        Sources/Vorssaint/Core/InputSourceLockStrings.swift
         Sources/Vorssaint/Services/SessionActivity.swift
         Sources/Vorssaint/Services/SessionActivitySupport.swift
         Sources/Vorssaint/Services/EventTimestamp.swift

@@ -161,6 +161,7 @@ struct MetricsTests {
                 AssistiveKeyboardTests.run(suite)
                 ScreenshotToolShortcutTests.run(suite)
             }),
+            ("input-source-lock", { InputSourceLockTests.run(suite) }),
             ("storage", {
                 RecentCaptureStoreTests.run(suite)
                 RecorderPresetImageStoreTests.run(suite)

@@ -89,6 +89,8 @@ enum ReleaseChangeAliases {
         case .superKey: return ["super key"]
         case .quitWindowProtection: return ["quit protection", "quit & close protection",
             "quit and close protection", "command q and command w"]
+        case .inputSourceLock: return ["input source lock", "input source per app", "input method lock",
+            "keyboard layout lock", "lock the input source", "ime lock"]
         case .clipboardHistory: return ["clipboard history", .exact("Clipboard"), .island("clipboard"),
             "clear unpinned", "clipboard previews", "clipboard items"]
         case .pastePlain: return ["paste as plain text", "paste plain text"]

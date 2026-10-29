@@ -19,6 +19,15 @@ enum InputSourceSelection {
         let isASCIICapable: Bool
     }
 
+    /// One source as the input source lock offers it: the stable identifier a
+    /// rule stores and the name the Input menu shows for it.
+    struct SelectableSource: Identifiable, Equatable {
+        let id: String
+        let name: String
+        let isLayout: Bool
+        let isASCIICapable: Bool
+    }
+
     // MARK: - Decisions (pure)
 
     /// The source to borrow when plain Latin typing is wanted, or nil when
@@ -82,6 +91,26 @@ enum InputSourceSelection {
                      isLayout: inputSourceString($0, property: kTISPropertyInputSourceType)
                          == kTISTypeKeyboardLayout as String,
                      isASCIICapable: inputSourceBool($0, property: kTISPropertyInputSourceIsASCIICapable))
+        }
+    }
+
+    /// The enabled sources with the names the Input menu shows, for a picker.
+    /// A source that reports no identifier cannot be stored in a rule and is
+    /// left out, and repeated identifiers keep the first order the system
+    /// reports so a picker never draws the same tag twice.
+    static func selectableSources() -> [SelectableSource] {
+        var seen = Set<String>()
+        return selectableInputSources().compactMap { source in
+            guard let id = inputSourceString(source, property: kTISPropertyInputSourceID),
+                  !id.isEmpty, seen.insert(id).inserted else { return nil }
+            return SelectableSource(
+                id: id,
+                name: inputSourceString(source, property: kTISPropertyLocalizedName) ?? id,
+                isLayout: inputSourceString(source, property: kTISPropertyInputSourceType)
+                    == kTISTypeKeyboardLayout as String,
+                isASCIICapable: inputSourceBool(source,
+                                                property: kTISPropertyInputSourceIsASCIICapable)
+            )
         }
     }
 
